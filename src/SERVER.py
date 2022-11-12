@@ -206,16 +206,16 @@ def del_rest(data):
 
 
 def del_teacher(data):
-    sql = f"DELETE FROM Teacher where 教师姓名='{data['name']}'AND 教师级别={data['grade']}"
+    sql = f"DELETE FROM Teacher where 教师姓名='{data['name']}'AND 教师级别='{data['grade']}'"
     func.execute_query(sql)
 
 
 def insert_teacher(data):
     sql = f"INSERT INTO Teacher" \
-          f"(教师姓名,教师级别,教师信息) VALUES ({data['name']},{data['grade']},{data['title']})"
+          f"(教师姓名,教师级别,教师信息) VALUES ('{data['name']}','{data['grade']}','{data['title']}')"
     func.execute_query(sql)
 
 
 def update_teacher(data):
-    sql = f"UPDATE Teacher SET教师姓名='{data['name']}', 教师级别='{data['grade']}', 教师信息='{data['title']}'"
+    sql = f"UPDATE Teacher SET 教师姓名='{data['name']}', 教师级别='{data['grade']}', 教师信息='{data['title']}'"
     func.execute_query(sql)
