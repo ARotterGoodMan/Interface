@@ -100,8 +100,23 @@ def del_rest():
 
 
 @app.route("/update_teacher", methods=['POST'])
+def insert_teacher():
+    data = request.json
+    SERVER.insert_teacher(data)
+    return Response("OK")
+
+
+@app.route("/insert_teacher", methods=['POST'])
 def update_teacher():
     data = request.json
+    SERVER.update_teacher(data)
+    return Response("OK")
+
+
+@app.route("/del_teacher", methods=['POST'])
+def del_teacher():
+    data = request.json
+    SERVER.del_teacher(data)
     return Response("OK")
 
 
