@@ -217,5 +217,6 @@ def insert_teacher(data):
 
 
 def update_teacher(data):
-    sql = f"UPDATE Teacher SET 教师姓名='{data['name']}', 教师级别='{data['grade']}', 教师信息='{data['title']}'"
+    sql = f"UPDATE Teacher SET 教师姓名='{data['name']}', 教师级别='{data['grade']}', 教师信息='{data['title']}'" \
+          f" WHERE 教师姓名='{data['name']}'"
     func.execute_query(sql)
