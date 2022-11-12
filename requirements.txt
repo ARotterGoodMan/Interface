@@ -1,0 +1,6 @@
+xlwt
+flask
+flask_cors
+pymysql
+requests
+pyinstaller
