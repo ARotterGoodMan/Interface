@@ -137,9 +137,9 @@ def my_get_data(name):
 def insert(data):
     sql = f"INSERT INTO Reserve" \
           f"(教师,A_ID,学生姓名,性别,年级,选科,学校,估分,家长姓名,联系方式,备注,日期,时间段,邮箱) " \
-          f"VALUES ('{data['teacher']}','{data['A_id']}','{data['name']}','{data['sex']}','{data['grade']}','{data['subjects']}'" \
-          f",'{data['school']}','{int(data['fraction'])}', '{data['parents']}','{data['phoneNumber']}','{data['remark']}'" \
-          f",'{data['date']}','{data['time']}','{data['mail']}')"
+          f"VALUES ('{data['teacher']}','{data['A_id']}','{data['name']}','{data['sex']}','{data['grade']}'," \
+          f"'{data['subjects']}','{data['school']}','{int(data['fraction'])}', '{data['parents']}'," \
+          f"'{data['phoneNumber']}','{data['remark']}','{data['date']}','{data['time']}','{data['mail']}')"
     func.execute_query(sql)
 
 
