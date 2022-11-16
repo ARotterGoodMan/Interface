@@ -103,21 +103,33 @@ def del_rest():
 def insert_teacher():
     data = request.json
     SERVER.update_teacher(data)
-    return Response("OK")
+    return Response("ok")
 
 
 @app.route("/insert_teacher", methods=['POST'])
 def update_teacher():
     data = request.json
     SERVER.insert_teacher(data)
-    return Response("OK")
+    return Response("ok")
 
 
 @app.route("/del_teacher", methods=['POST'])
 def del_teacher():
     data = request.json
     SERVER.del_teacher(data)
-    return Response("OK")
+    return Response("ok")
+
+
+@app.route("/get_students_list", methods=['POST'])
+def get_students_list():
+    return SERVER.get_students_list()
+
+
+@app.route("/insert_student", methods=['POST'])
+def insert_student():
+    data = request.json
+    SERVER.insert_student(data)
+    return Response("ok")
 
 
 if __name__ == '__main__':

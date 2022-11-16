@@ -20,8 +20,7 @@ def push_report(keyword, data):
                     "#### •  学生年级: **%s** \n" % data['grade'] +
                     "#### •  学生选科: **%s** \n" % data['subjects'] +
                     "#### •  预约日期: **%s** \n" % data['date'] +
-                    "#### •  预约时间: **%s** \n" % data['time'] +
-                    "#### •  咨询问题: **%s** \n" % data['remark']
+                    "#### •  预约时间: **%s** \n" % data['time']
         },
         "at": {
             "atMobiles": [],

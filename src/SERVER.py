@@ -137,9 +137,9 @@ def my_get_data(name):
 def insert(data):
     sql = f"INSERT INTO Reserve" \
           f"(教师,A_ID,学生姓名,性别,年级,选科,学校,估分,家长姓名,联系方式,备注,日期,时间段,邮箱) " \
-          f"VALUES ('{data['teacher']}','{data['A_id']}','{data['name']}','{data['sex']}','{data['grade']}'," \
-          f"'{data['subjects']}','{data['school']}','{int(data['fraction'])}', '{data['parents']}'," \
-          f"'{data['phoneNumber']}','{data['remark']}','{data['date']}','{data['time']}','{data['mail']}')"
+          f"VALUES ('{data['teacher']}','{data['A_id']}','{data['name']}','{data['sex']}','{data['grade']}','{data['subjects']}'" \
+          f",'{data['school']}','{int(data['fraction'])}', '{data['parents']}','{data['phoneNumber']}','{data['remark']}'" \
+          f",'{data['date']}','{data['time']}','{data['mail']}')"
     func.execute_query(sql)
 
 
@@ -219,4 +219,30 @@ def insert_teacher(data):
 def update_teacher(data):
     sql = f"UPDATE Teacher SET 教师姓名='{data['name']}', 教师级别='{data['grade']}', 教师信息='{data['title']}'" \
           f" WHERE 教师姓名='{data['name']}'"
+    func.execute_query(sql)
+
+
+def get_students_list():
+    sql = f"SELECT 学生姓名,A_id,性别,年级,选科,学校,家长姓名,联系方式,邮箱,估分 FROM  UserInfo"
+    students = func.fetchall(sql)
+    students_list = []
+    for student in students:
+        student_list = {
+            'name': student[0],
+            'A_id': student[1],
+            'sex': student[2],
+            'grade': student[3],
+            'subjects': student[4],
+            'school': student[5],
+            'parents': student[6],
+            'phoneNumber': student[7],
+            'mail': student[8],
+            'fraction': student[9]
+        }
+        students_list.append(student_list)
+    return students_list
+
+
+def insert_student(data):
+    sql = f"INSERT INTO UserInfo (A_id,学生姓名) VALUES ('{data['A_id']}','{data['name']}')"
     func.execute_query(sql)
