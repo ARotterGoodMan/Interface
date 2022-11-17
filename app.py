@@ -41,12 +41,6 @@ def my_get_reserve():
     return SERVER.my_get_reserve(name, A_id)
 
 
-@app.route("/my_get_data", methods=["GET"])
-def my_get_data():
-    name = request.args.get('name')
-    return SERVER.my_get_data(name)
-
-
 @app.route("/insert", methods=["POST"])
 def insert():
     data = request.json
@@ -64,7 +58,7 @@ def delete():
     return Response("ok")
 
 
-@app.route("/export", methods=["POST", "GET"])
+@app.route("/export", methods=["POST"])
 def export():
     return SERVER.export()
 

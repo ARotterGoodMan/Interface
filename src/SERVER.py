@@ -117,23 +117,6 @@ def get_reserve_over(sql):
     return my_reserves_list
 
 
-def my_get_data(name):
-    sql = f"SELECT 教师,学生姓名,性别,年级,选科,学校,家长姓名,联系方式,日期,时间段,邮箱 FROM Reserve WHERE 学生姓名='{name}' "
-    datas = func.fetchone(sql)
-    return {
-        'teacher': datas[0],
-        'sex': datas[2],
-        'grade': datas[3],
-        'subjects': datas[4],
-        'school': datas[5],
-        'parents': datas[6],
-        'phoneNumber': datas[7],
-        'date': datas[8],
-        'time': datas[9],
-        'mail': datas[10]
-    }
-
-
 def insert(data):
     sql = f"INSERT INTO Reserve" \
           f"(教师,A_ID,学生姓名,性别,年级,选科,学校,估分,家长姓名,联系方式,备注,日期,时间段,邮箱) " \
