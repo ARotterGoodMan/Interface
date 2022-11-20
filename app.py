@@ -7,6 +7,11 @@ app = Flask(__name__)
 CORS(app, resources=r'/*')
 
 
+@app.route("/")
+def i():
+    return Response("What are you doing ?")
+
+
 @app.route('/login', methods=['POST'])
 def login():
     if request.json['name'] and request.json['A_id']:
@@ -14,6 +19,13 @@ def login():
         return SERVER.login(data)
     else:
         return {'message': '输入参数错误'}
+
+
+@app.route("/sign_up", methods=['POST'])
+def sign_up():
+    data = request.json
+    SERVER.sign_up(data)
+    return Response("ok")
 
 
 @app.route('/update_user_data', methods=['POST'])

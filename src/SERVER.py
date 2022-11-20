@@ -5,36 +5,58 @@ from flask import make_response
 
 
 def login(data):
-    sql = f"SELECT A_id,学生姓名,性别,学校,年级,选科,家长姓名,联系方式,邮箱,估分,状态  FROM UserInfo WHERE " \
-          f"A_id ={data['A_id']} AND 学生姓名='{data['name']}'"
-    data = func.fetchone(sql)
-    if data:
-        state = data[10]
+    if len(data['A_id']) <= 6:
+        sql = f"SELECT A_id,学生姓名,性别,学校,年级,选科,家长姓名,联系方式,邮箱,估分,状态  FROM UserInfo WHERE " \
+              f"A_id ={data['A_id']} AND 学生姓名='{data['name']}'"
+    else:
+        sql = f"SELECT A_id,学生姓名,性别,学校,年级,选科,家长姓名,联系方式,邮箱,估分,状态  FROM UserInfo WHERE " \
+              f" 联系方式='{data['A_id']}' AND 学生姓名='{data['name']}'"
+    datas = func.fetchone(sql)
+    if datas:
+        state = datas[10]
         if state == '0':
+            if len(data['A_id']) <= 6:
+                return {
+                    'A_id': datas[0],
+                    'name': datas[1],
+                    'state': datas[10]
+                }
+            else:
+                return {
+                    'phoneNumber': datas[7],
+                    'name': datas[1],
+                    'state': datas[10]
+                }
+        else:
             return {
-                'A_id': data[0],
-                'name': data[1],
-                'state': data[10]
+                'A_id': datas[0],
+                'name': datas[1],
+                'sex': datas[2],
+                'grade': datas[4],
+                'fraction': datas[9],
+                'subjects': datas[5],
+                'school': datas[3],
+                'parents': datas[6],
+                'phoneNumber': datas[7],
+                'mail': datas[8],
+                'state': datas[10]
+            }
+    else:
+        if len(data['A_id']) <= 6:
+            return {
+                'state': "error",
+                "error": "你输入的学生姓名或A_id错误"
             }
         else:
             return {
-                'A_id': data[0],
-                'name': data[1],
-                'sex': data[2],
-                'grade': data[4],
-                'fraction': data[9],
-                'subjects': data[5],
-                'school': data[3],
-                'parents': data[6],
-                'phoneNumber': data[7],
-                'mail': data[8],
-                'state': data[10]
+                'state': "error",
+                "error": "你输入的学生姓名和手机号与注册时不符"
             }
-    else:
-        return {
-            'state': "error",
-            "error": "你输入的学生姓名或A_id错误"
-        }
+
+
+def sign_up(data):
+    sql = f"INSERT INTO UserInfo(学生姓名,联系方式)VALUES ('{data['name']}','{data['phoneNumber']}')"
+    func.execute_query(sql)
 
 
 def a_login(data):
@@ -52,9 +74,17 @@ def a_login(data):
 
 
 def update_user_data(data):
-    sql = f"UPDATE UserInfo SET 学生姓名='{data['name']}',学校='{data['school']}',性别='{data['sex']}'," \
-          f"年级='{data['grade']}',选科='{data['subjects']}',家长姓名='{data['parents']}',联系方式='{data['phoneNumber']}'" \
-          f",邮箱='{data['mail']}',估分={int(data['fraction'])},状态='1' WHERE A_id ='{data['A_id']}'"
+    if data['old_client_grade'] == 'A':
+        sql = f"UPDATE UserInfo SET 学校='{data['school']}',性别='{data['sex']}'," \
+              f"年级='{data['grade']}',选科='{data['subjects']}',家长姓名='{data['parents']}'," \
+              f"联系方式='{data['phoneNumber']}',邮箱='{data['mail']}',估分={int(data['fraction'])}," \
+              f"状态='{data['state']}',客户等级='{data['client_grade']}' WHERE A_id='{data['A_id']}'" \
+              f" AND 学生姓名='{data['name']}'"
+    else:
+        sql = f"UPDATE UserInfo SET 学校='{data['school']}',性别='{data['sex']}',年级='{data['grade']}'," \
+              f"选科='{data['subjects']}',家长姓名='{data['parents']}',邮箱='{data['mail']}', A_id='{data['A_id']}'," \
+              f"估分={int(data['fraction'])},状态='{data['state']}',客户等级='{data['client_grade']}' " \
+              f"WHERE 联系方式='{data['phoneNumber']}' AND 学生姓名='{data['name']}'"
     func.execute_query(sql)
 
 
@@ -206,7 +236,7 @@ def update_teacher(data):
 
 
 def get_students_list():
-    sql = f"SELECT 学生姓名,A_id,性别,年级,选科,学校,家长姓名,联系方式,邮箱,估分 FROM  UserInfo"
+    sql = f"SELECT 学生姓名,A_id,性别,年级,选科,学校,家长姓名,联系方式,邮箱,估分,状态,客户等级 FROM  UserInfo"
     students = func.fetchall(sql)
     students_list = []
     for student in students:
@@ -220,12 +250,15 @@ def get_students_list():
             'parents': student[6],
             'phoneNumber': student[7],
             'mail': student[8],
-            'fraction': student[9]
+            'fraction': student[9],
+            'state': student[10],
+            "client_grade": student[11]
+
         }
         students_list.append(student_list)
     return students_list
 
 
 def insert_student(data):
-    sql = f"INSERT INTO UserInfo (A_id,学生姓名) VALUES ('{data['A_id']}','{data['name']}')"
+    sql = f"INSERT INTO UserInfo (A_id,学生姓名,客户等级) VALUES ('{data['A_id']}','{data['name']}','A')"
     func.execute_query(sql)
